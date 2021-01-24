@@ -1,0 +1,19 @@
+##==================== ≠≠≠ =====================##
+	## Clear the Master Boot Record:
+zerombr
+
+	#partitioning info starts here
+clearpart --drives= --all --initlabel
+ignoredisk --drives=
+
+	part /boot --fstype=ext2 --ondisk= --size=1022 --label=BOOT --asprimary
+	part biosboot --fstype="biosboot" --ondisk= --size=2 --asprimary
+	part swap --fstype=swap --ondisk= --size=8196 --asprimary
+	part /    --fstype=ext3 --size=-9218 --grow --ondisk= --asprimary
+	part /home --fstype=ext3 --size=-18436 --grow  --ondisk=
+
+#autopart
+# System bootloader configuration
+bootloader --append="rhgb quiet crashkernel=128M 16M console=tty1
+console=ttyS0,38400n8" --location=mbr --driveorder=
+
